@@ -58,10 +58,26 @@ If you want to run Flyway migrations at any time:
 make migrate
 ```
 
-# Stopping the Containers
+## Stopping the Containers
 
 To stop the containers, run:
 
 ```bash
 make down
 ```
+
+## Running the Load Test
+
+This project includes a load test using Grafana k6, a modern load testing tool. The load test script is located in the loadtest folder.
+
+To run the load test, make sure you have Docker installed and then execute the following command from the root folder of the project:
+
+```bash
+make loadtest
+```
+
+This command will start the required services using Docker Compose, including the Grafana k6 container, which will run the load test.
+
+Once the load test has finished, the results will be displayed in the terminal. You can also access the load test results in a web interface by opening the URL http://localhost:3000 in your browser. The default username and password are both admin.
+
+For more information about Grafana k6, please visit their official website: https://k6.io/docs/getting-started/what-is-k6.
