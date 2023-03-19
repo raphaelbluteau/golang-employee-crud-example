@@ -18,5 +18,22 @@ services:
       - ./wait-for-postgres.sh:/wait-for-postgres.sh
     entrypoint: ["sh", "-c", "echo 'Waiting for postgres...' && sleep 10 && /flyway/flyway migrate"]
 
+  app:
+    build: .
+    container_name: employee-api
+    env_file: .env
+    ports:
+      - '1323:1323'
+    depends_on:
+      - postgres
+
+  k6:
+    build: ./loadtest
+    volumes:
+      - ./loadtest:/mnt/loadtest
+      - ./loadtest/run-loadtest.sh:/run-loadtest.sh
+    entrypoint: []
+    command: /run-loadtest.sh app
+
 volumes:
   postgres_data:

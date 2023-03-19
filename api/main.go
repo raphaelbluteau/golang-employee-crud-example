@@ -43,6 +43,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
+	e.GET("/health", healthCheck)
 	e.GET("/employees", employeeHandler.GetEmployees)
 	e.GET("/employees/:id", employeeHandler.GetEmployeeByID)
 	e.POST("/employees", employeeHandler.CreateEmployee)
@@ -53,4 +54,10 @@ func main() {
 	addr := fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Port)
 	log.Printf("Server listening at %s", addr)
 	log.Fatal(http.ListenAndServe(addr, e))
+}
+
+func healthCheck(c echo.Context) error {
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"status": "ok",
+	})
 }

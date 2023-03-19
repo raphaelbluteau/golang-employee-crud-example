@@ -13,7 +13,7 @@ export let options = {
 };
 
 export function testSuite() {
-    const BASE_URL = 'http://localhost:1323';
+    const BASE_URL = 'http://app:1323';
 
     // Create Employee
     let url = `${BASE_URL}/employees`;
