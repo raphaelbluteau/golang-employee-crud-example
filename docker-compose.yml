@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: employee-api-postgres
+    env_file: .env
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  flyway:
+    image: flyway/flyway:7.15.0
+    env_file: .env
+    volumes:
+      - ./db/migrations:/flyway/sql
+      - ./wait-for-postgres.sh:/wait-for-postgres.sh
+    entrypoint: ["sh", "-c", "echo 'Waiting for postgres...' && sleep 10 && /flyway/flyway migrate"]
+
+volumes:
+  postgres_data:
