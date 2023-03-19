@@ -1,34 +1,22 @@
-# Employee API
+# Golang Employee CRUD Example
 
-This project provides a CRUD API for managing employee data. It uses Golang, PostgreSQL, Echo framework, and Flyway for database migrations.
+This is a CRUD API example for employee management written in Golang, utilizing the Echo framework and a PostgreSQL database.
+
+This project and the accompanying loadtest were both created using the GPT-4 language model from OpenAI. The loadtest uses Grafana k6, which is included in the project's Docker configuration.
 
 ## Prerequisites
 
-- Docker and Docker Compose
-- Make
+To run this project, you will need to have Docker and Docker Compose installed on your machine.
 
 ## Setup
 
-1. Clone the repository:
-
-```bash
-git clone https://github.com/your_username/employee-api.git
-cd employee-api
-```
-
-2. Create a .env file in the project root to store your PostgreSQL and Flyway credentials:
-
-```bash
-cp .env.example .env
-```
-
-Edit the .env file and replace the placeholders with your own values:
+In order to run the application, you will need to create a .env file in the root of the project with the following content:
 
 ```text
 POSTGRES_USER=your_username
 POSTGRES_PASSWORD=your_password
-POSTGRES_DB=your_database
-POSTGRES_HOST=localhost
+POSTGRES_DB=employee
+POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
 FLYWAY_POSTGRES_HOST=postgres
 FLYWAY_URL=jdbc:postgresql://${FLYWAY_POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
@@ -36,48 +24,22 @@ FLYWAY_USER=${POSTGRES_USER}
 FLYWAY_PASSWORD=${POSTGRES_PASSWORD}
 ```
 
-## Running the Containers
+Make sure to replace your_username and your_password with your own values. These environment variables will be used to set up the database connection.
 
-1. Start the PostgreSQL container:
-
-```bash
-docker-compose up -d postgres
-```
-
-2. Start the Employee API:
+After creating the .env file, you can run the application using the following command:
 
 ```bash
 make run
 ```
 
-The Employee API will be running on http://localhost:1323.
+This will start the PostgreSQL database and run the migration scripts to set up the database schema. Once the database is set up, the application will be started and will listen on port 1323.
 
-If you want to run Flyway migrations at any time:
+## Running load tests
 
-```bash
-make migrate
-```
-
-## Stopping the Containers
-
-To stop the containers, run:
-
-```bash
-make down
-```
-
-## Running the Load Test
-
-This project includes a load test using Grafana k6, a modern load testing tool. The load test script is located in the loadtest folder.
-
-To run the load test, make sure you have Docker installed and then execute the following command from the root folder of the project:
+To run the load test, you can use the following command:
 
 ```bash
 make loadtest
 ```
 
-This command will start the required services using Docker Compose, including the Grafana k6 container, which will run the load test.
-
-Once the load test has finished, the results will be displayed in the terminal. You can also access the load test results in a web interface by opening the URL http://localhost:3000 in your browser. The default username and password are both admin.
-
-For more information about Grafana k6, please visit their official website: https://k6.io/docs/getting-started/what-is-k6.
+This will start the application, wait for it to become available, and then run the load test using Grafana k6. Please note that you do not need to have Grafana k6 installed on your machine, as it will be run in a Docker container.
